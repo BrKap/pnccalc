@@ -14,18 +14,48 @@ const calculators = [
     id: 'building',
     title: 'Building Calculator',
     status: 'Available',
-    description: 'Plan building upgrade costs, construction time, andpower.',
+    description: 'Plan building upgrade costs, construction time, and power.',
     icon: Hammer,
   },
+];
+
+const upcomingFeatures = [
   {
     id: 'training',
-    title: 'Troop Calculator',
+    title: 'Training Calculator',
     status: 'Not implemented',
     description: 'Plan training costs, promotion costs, healing costs, time, and power',
     icon: Dumbbell,
     disabled: true,
   },
 ];
+
+function CalculatorCards({ items, onNavigate }) {
+  return items.map((calculator) => {
+    const Icon = calculator.icon;
+
+    return (
+      <button
+        type="button"
+        className="calculator-link"
+        key={calculator.id}
+        disabled={calculator.disabled}
+        onClick={() => onNavigate(calculator.id)}
+      >
+        <span className="calculator-icon">
+          <Icon size={24} />
+        </span>
+        <span className="calculator-copy">
+          <span className="calculator-title">{calculator.title}</span>
+          <span className="calculator-description">{calculator.description}</span>
+        </span>
+        <span className={calculator.disabled ? 'status muted' : 'status'}>
+          {calculator.status}
+        </span>
+      </button>
+    );
+  });
+}
 
 export default function HomePage({ onNavigate }) {
   return (
@@ -36,31 +66,22 @@ export default function HomePage({ onNavigate }) {
       </header>
 
       <section className="calculator-grid" aria-label="Calculator links">
-        {calculators.map((calculator) => {
-          const Icon = calculator.icon;
-
-          return (
-            <button
-              type="button"
-              className="calculator-link"
-              key={calculator.id}
-              disabled={calculator.disabled}
-              onClick={() => onNavigate(calculator.id)}
-            >
-              <span className="calculator-icon">
-                <Icon size={24} />
-              </span>
-              <span className="calculator-copy">
-                <span className="calculator-title">{calculator.title}</span>
-                <span className="calculator-description">{calculator.description}</span>
-              </span>
-              <span className={calculator.disabled ? 'status muted' : 'status'}>
-                {calculator.status}
-              </span>
-            </button>
-          );
-        })}
+        <CalculatorCards items={calculators} onNavigate={onNavigate} />
       </section>
+
+      <section className="upcoming-section" aria-labelledby="upcoming-title">
+        <div className="section-heading">
+          <p className="eyebrow">Coming Soon</p>
+          <h2 id="upcoming-title">Upcoming Features</h2>
+        </div>
+        <div className="calculator-grid upcoming-grid">
+          <CalculatorCards items={upcomingFeatures} onNavigate={onNavigate} />
+        </div>
+      </section>
+
+      <footer className="home-footer">
+        <a href="#/changelog">Changelog</a>
+      </footer>
     </main>
   );
 }

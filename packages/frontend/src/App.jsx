@@ -3,16 +3,19 @@ import BuildingCalculator from './features/building/BuildingCalculator.jsx';
 import HomePage from './pages/HomePage.jsx';
 import ResearchCalculator from './features/research/ResearchCalculator.jsx';
 import ThemeControl from './features/calculator/components/ThemeControl.jsx';
+import ChangelogPage from './pages/ChangelogPage.jsx';
 
 const ROUTES = {
   home: 'home',
   research: 'research',
   building: 'building',
+  changelog: 'changelog',
 };
 
 function getInitialRoute() {
   if (window.location.hash === '#/research') return ROUTES.research;
   if (window.location.hash === '#/building') return ROUTES.building;
+  if (window.location.hash === '#/changelog') return ROUTES.changelog;
   return ROUTES.home;
 }
 
@@ -29,6 +32,7 @@ export default function App() {
     const hashes = {
       [ROUTES.research]: '#/research',
       [ROUTES.building]: '#/building',
+      [ROUTES.changelog]: '#/changelog',
       [ROUTES.home]: '#/',
     };
     window.location.hash = hashes[nextRoute] ?? hashes[ROUTES.home];
@@ -42,6 +46,10 @@ export default function App() {
 
     if (route === ROUTES.building) {
       return <BuildingCalculator onNavigateHome={() => navigate(ROUTES.home)} />;
+    }
+
+    if (route === ROUTES.changelog) {
+      return <ChangelogPage />;
     }
 
     return <HomePage onNavigate={navigate} />;
