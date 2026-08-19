@@ -36,13 +36,19 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Verify Pages artifact
+        run: |
+          test -f dist/index.html
+          touch dist/.nojekyll
+          find dist -maxdepth 2 -type f | sort
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: packages/frontend/dist
+          path: dist
 
   deploy:
     environment:
