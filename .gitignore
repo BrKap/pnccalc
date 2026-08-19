@@ -22,6 +22,7 @@ BuildingData/
 ResearchData/
 export-metadata/
 scripts/
+notes/
 
 # Local environment and secrets
 .env

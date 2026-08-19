@@ -1,5 +1,8 @@
 import React from 'react';
+import { Info } from 'lucide-react';
 import { formatNumber, formatTime } from '../../calculator/formatters';
+import InfoPopover from '../../calculator/components/InfoPopover.jsx';
+import UpgradeDetails from '../../calculator/components/UpgradeDetails.jsx';
 import {
   BUILDING_RESOURCE_TYPES,
   calculateBuildingCost,
@@ -20,6 +23,14 @@ export default function BuildingRow({
     selection.currentLevel,
     selection.targetLevel,
     reductions,
+  );
+  const nextLevel = selection.currentLevel + 1;
+  const nextLevelData = building.levels.find((entry) => entry.level === nextLevel);
+  const nextLevelTotal = selection.currentLevel < building.maxLevel
+    ? calculateBuildingCost(building, selection.currentLevel, nextLevel, reductions)
+    : null;
+  const prerequisites = (nextLevelData?.requirements ?? []).map(
+    (requirement) => `${requirement.building} Level ${requirement.level}`,
   );
 
   const updateCurrentLevel = (currentLevel) => {
@@ -47,7 +58,25 @@ export default function BuildingRow({
         />
       </td>
       <th scope="row">
-        <span className="research-name">{row.name}</span>
+        <span className="research-name upgrade-name">
+          {row.name}
+          <InfoPopover
+            trigger={<Info size={14} aria-hidden="true" />}
+            label={`Show ${row.name} upgrade details`}
+            triggerClassName="row-info-button"
+          >
+            <UpgradeDetails
+              name={row.name}
+              currentLevel={selection.currentLevel}
+              targetLevel={selection.targetLevel}
+              maxLevel={building.maxLevel}
+              nextResult={nextLevelTotal}
+              totalResult={rowTotal}
+              prerequisites={prerequisites}
+              resourceTypes={BUILDING_RESOURCE_TYPES}
+            />
+          </InfoPopover>
+        </span>
         <span className="research-meta">Max {building.maxLevel}</span>
       </th>
       <td>

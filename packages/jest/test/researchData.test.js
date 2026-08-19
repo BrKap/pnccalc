@@ -24,7 +24,7 @@ describe('research frontend data', () => {
     });
   });
 
-  it('keeps only the compact calculator contract', () => {
+  it('keeps the compact calculator contract with display prerequisites', () => {
     expect(Object.keys(research[0])).toEqual([
       'id',
       'name',
@@ -38,10 +38,16 @@ describe('research frontend data', () => {
       'costs',
       'timeSeconds',
       'power',
+      'institute',
+      'requirements',
     ]);
     expect(researchText).not.toMatch(
       /sourceId|luaId|sourceNameKey|benefitType|nameMapping|sourceTechId|sourceLevelId/,
     );
+    expect(research[0].levels[0]).toMatchObject({ institute: 1, requirements: [] });
+    expect(research[1].levels[0].requirements).toEqual([
+      { researchId: 'development:1', level: 1 },
+    ]);
   });
 
   it('exports War Rage with Inscription costs', () => {

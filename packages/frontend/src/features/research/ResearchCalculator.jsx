@@ -6,39 +6,36 @@ import useLocalStorageState from '../../hooks/useLocalStorageState';
 import TotalsPanel from '../calculator/components/TotalsPanel.jsx';
 import BulkLevelControls from '../calculator/components/BulkLevelControls.jsx';
 import CollapsiblePanelGroup from '../calculator/components/CollapsiblePanelGroup.jsx';
+import LoadoutPanel from '../calculator/components/LoadoutPanel.jsx';
+import { calculateLoadoutReductions } from '../calculator/lib/calculateLoadoutReductions';
 import { applyBulkCurrentLevel, applyBulkTargetLevel } from '../calculator/lib/bulkLevels';
 import { RESOURCE_TYPES, calculateCategoryTotals } from './lib/calculateResearchCost';
 import CategoryTabs from './components/CategoryTabs.jsx';
 import ReductionsPanel from './components/ReductionsPanel.jsx';
 import ResearchTable from './components/ResearchTable.jsx';
+import { researchLoadoutConfig } from './data/researchLoadout';
+import { researchLoadoutImages } from './data/researchLoadoutImages';
 import './research.css';
 
 const researchById = new Map(research.map((item) => [item.id, item]));
 
-const defaultReductions = {
-  resourcePercent: {
-    food: 0,
-    wood: 0,
-    stone: 0,
-    iron: 0,
-    inscription: 0,
-  },
-  resourceStatic: {
-    food: 0,
-    wood: 0,
-    stone: 0,
-    iron: 0,
-  },
-  researchSpeedPercent: 0,
+const defaultLoadout = {
+  gear: {},
+  heroes: {},
+  speedPercent: 0,
 };
 
 export default function ResearchCalculator({ onNavigateHome }) {
   const [selectedCategoryId, setSelectedCategoryId] = useState(categories[0]?.id ?? '');
   const [query, setQuery] = useState('');
   const [selections, setSelections] = useLocalStorageState('pnc-research-selections-v3', {});
-  const [reductions, setReductions] = useLocalStorageState(
-    'pnc-research-reductions-v2',
-    defaultReductions,
+  const [loadout, setLoadout] = useLocalStorageState(
+    'pnc-research-loadout-v1',
+    defaultLoadout,
+  );
+  const reductions = useMemo(
+    () => calculateLoadoutReductions(researchLoadoutConfig, loadout),
+    [loadout],
   );
   const [enabledRows, setEnabledRows] = useLocalStorageState('pnc-research-enabled-rows-v2', {});
   const [enabledCategories, setEnabledCategories] = useLocalStorageState(
@@ -119,6 +116,19 @@ export default function ResearchCalculator({ onNavigateHome }) {
       />
 
       <section className="workspace">
+        <CollapsiblePanelGroup
+          title="Gear, Heroes & Speed"
+          ariaLabel="Research gear, heroes, and speed"
+          contentId="research-loadout-panels"
+          contentClassName="loadout-panels"
+        >
+          <LoadoutPanel
+            config={researchLoadoutConfig}
+            loadout={loadout}
+            setLoadout={setLoadout}
+            images={researchLoadoutImages}
+          />
+        </CollapsiblePanelGroup>
         <CollapsiblePanelGroup>
           <TotalsPanel
             totals={categoryTotals}
@@ -130,7 +140,7 @@ export default function ResearchCalculator({ onNavigateHome }) {
             resourceTypes={RESOURCE_TYPES}
             title="All Categories Cost"
           />
-          <ReductionsPanel reductions={reductions} setReductions={setReductions} />
+          <ReductionsPanel reductions={reductions} />
         </CollapsiblePanelGroup>
 
         <div className="primary-column">
@@ -167,6 +177,7 @@ export default function ResearchCalculator({ onNavigateHome }) {
             selections={selections}
             setSelections={setSelections}
             reductions={reductions}
+            researchById={researchById}
             enabledRows={enabledRows}
             onToggleRow={toggleRow}
           />

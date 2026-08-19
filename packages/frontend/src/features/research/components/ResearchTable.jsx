@@ -9,6 +9,7 @@ export default function ResearchTable({
   reductions,
   enabledRows,
   onToggleRow,
+  researchById,
 }) {
   const onSelectionChange = (itemId, nextSelection) => {
     setSelections((current) => ({
@@ -48,6 +49,7 @@ export default function ResearchTable({
               selection={selections[item.id] ?? { currentLevel: 0, targetLevel: 0 }}
               onSelectionChange={onSelectionChange}
               reductions={reductions}
+              researchById={researchById}
             />
           ))}
         </tbody>

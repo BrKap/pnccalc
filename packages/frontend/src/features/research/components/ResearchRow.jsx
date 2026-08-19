@@ -1,6 +1,13 @@
 import React from 'react';
-import { calculateResearchCost, clampTargetLevel } from '../lib/calculateResearchCost';
+import { Info } from 'lucide-react';
+import {
+  RESOURCE_TYPES,
+  calculateResearchCost,
+  clampTargetLevel,
+} from '../lib/calculateResearchCost';
 import { formatNumber, formatTime } from '../../calculator/formatters';
+import InfoPopover from '../../calculator/components/InfoPopover.jsx';
+import UpgradeDetails from '../../calculator/components/UpgradeDetails.jsx';
 
 export default function ResearchRow({
   item,
@@ -9,6 +16,7 @@ export default function ResearchRow({
   reductions,
   enabled,
   onToggle,
+  researchById,
 }) {
   const researchName = item.name;
   const rowTotal = calculateResearchCost(
@@ -17,6 +25,18 @@ export default function ResearchRow({
     selection.targetLevel,
     reductions,
   );
+  const nextLevel = selection.currentLevel + 1;
+  const nextLevelData = item.levels.find((entry) => entry.level === nextLevel);
+  const nextLevelTotal = selection.currentLevel < item.maxLevel
+    ? calculateResearchCost(item, selection.currentLevel, nextLevel, reductions)
+    : null;
+  const prerequisites = [
+    ...(nextLevelData?.institute > 0 ? [`Institute Level ${nextLevelData.institute}`] : []),
+    ...(nextLevelData?.requirements ?? []).map((requirement) => {
+      const requiredResearch = researchById.get(requirement.researchId);
+      return `${requiredResearch?.name ?? 'Research prerequisite'} Level ${requirement.level}`;
+    }),
+  ];
 
   const updateCurrentLevel = (currentLevel) => {
     onSelectionChange(item.id, {
@@ -43,7 +63,25 @@ export default function ResearchRow({
         />
       </td>
       <th scope="row">
-        <span className="research-name">{researchName}</span>
+        <span className="research-name upgrade-name">
+          {researchName}
+          <InfoPopover
+            trigger={<Info size={14} aria-hidden="true" />}
+            label={`Show ${researchName} upgrade details`}
+            triggerClassName="row-info-button"
+          >
+            <UpgradeDetails
+              name={researchName}
+              currentLevel={selection.currentLevel}
+              targetLevel={selection.targetLevel}
+              maxLevel={item.maxLevel}
+              nextResult={nextLevelTotal}
+              totalResult={rowTotal}
+              prerequisites={prerequisites}
+              resourceTypes={RESOURCE_TYPES}
+            />
+          </InfoPopover>
+        </span>
         <span className="research-meta">Max {item.maxLevel}</span>
       </th>
       <td>

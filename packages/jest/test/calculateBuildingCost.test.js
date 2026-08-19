@@ -12,8 +12,8 @@ const building = {
   id: 'building:1',
   maxLevel: 3,
   levels: [
-    { level: 1, costs: costs({ food: 100, wood: 50, goldStatue: 10 }), timeSeconds: 60, power: 5 },
-    { level: 2, costs: costs({ food: 200, stone: 25, goldStatue: 20 }), timeSeconds: 120, power: 10 },
+    { level: 1, costs: costs({ food: 100, wood: 50, ancientTome: 20, goldStatue: 10 }), timeSeconds: 60, power: 5 },
+    { level: 2, costs: costs({ food: 200, stone: 25, ancientTome: 40, goldStatue: 20 }), timeSeconds: 120, power: 10 },
     { level: 3, costs: costs({ food: 300, iron: 10, goldStatue: 30 }), timeSeconds: 180, power: 15 },
   ],
 };
@@ -33,11 +33,12 @@ describe('calculateBuildingCost', () => {
 
   it('applies resource, Gold Statue, and construction speed reductions', () => {
     const result = calculateBuildingCost(building, 0, 2, {
-      resourcePercent: { food: 0.1, goldStatue: 0.25 },
+      resourcePercent: { food: 0.1, ancientTome: 0.5, goldStatue: 0.25 },
       resourceStatic: { food: 10 },
       constructionSpeedPercent: 0.5,
     });
     expect(result.resources.food).toBe(250);
+    expect(result.resources.ancientTome).toBe(30);
     expect(result.resources.goldStatue).toBe(22.5);
     expect(result.timeSeconds).toBe(120);
   });

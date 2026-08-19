@@ -31,15 +31,19 @@ describe('building frontend data', () => {
     });
   });
 
-  it('keeps only the compact calculator contract', () => {
+  it('keeps the compact calculator contract with display prerequisites', () => {
     expect(Object.keys(buildings[0])).toEqual(['id', 'name', 'maxLevel', 'sourceIcon', 'levels']);
     expect(Object.keys(buildings[0].levels[0])).toEqual([
       'level',
       'costs',
       'timeSeconds',
       'power',
+      'requirements',
     ]);
     expect(buildingsText).not.toMatch(/sourceId|sourceRecordId|sourceBuildingId|luaId/);
+    expect(getLevel('Citadel', 2).requirements).toEqual([
+      { building: 'Lookout', level: 1 },
+    ]);
   });
 
   it('merges normal and special building materials', () => {

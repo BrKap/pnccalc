@@ -66,11 +66,7 @@ function calculateReducedResourceCost(resource, baseCost, reductions) {
     return Math.max(0, baseCost * (1 - percent) - staticReduction);
   }
 
-  if (resource === 'inscription') {
-    return baseCost * (1 - percent);
-  }
-
-  return baseCost;
+  return baseCost * (1 - percent);
 }
 
 export function calculateResearchCost(item, currentLevel, targetLevel, reductionsInput = {}) {

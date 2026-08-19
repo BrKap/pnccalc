@@ -29,6 +29,7 @@ export function normalizeBuildingReductions(reductions = {}) {
       stone: 0,
       iron: 0,
       goldStatue: 0,
+      ancientTome: 0,
       ...(reductions.resourcePercent ?? {}),
     },
     resourceStatic: {
@@ -63,8 +64,7 @@ function reduceResource(resource, baseCost, reductions) {
   if (STATIC_REDUCTION_RESOURCES.has(resource)) {
     return Math.max(0, baseCost * (1 - percent) - (reductions.resourceStatic[resource] ?? 0));
   }
-  if (resource === 'goldStatue') return baseCost * (1 - percent);
-  return baseCost;
+  return baseCost * (1 - percent);
 }
 
 export function calculateBuildingCost(building, currentLevel, targetLevel, reductionsInput = {}) {
