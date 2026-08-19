@@ -1,0 +1,31 @@
+export const RESOURCE_LABELS = {
+  food: 'Food',
+  wood: 'Wood',
+  stone: 'Stone',
+  iron: 'Iron',
+  ancientTome: 'Ancient Tome',
+  inscription: 'Inscription',
+  documentFragment: 'Document Fragment',
+  apocalypseResearchMaterial: 'Apocalypse Research Material',
+  astronomyTome: 'Astronomy Tome',
+  gloryCodex: 'Glory Codex',
+  goldStatue: 'Gold Statue',
+  apocalypseCodex: 'Apocalypse Codex',
+  silverStatue: 'Silver Statue',
+};
+
+export const RESOURCE_IMAGE_IDS = {
+  food: 'food',
+  wood: 'wood',
+  stone: 'stone',
+  iron: 'iron',
+  ancientTome: 'ancient-tome',
+  inscription: 'inscription',
+  documentFragment: 'document-fragment',
+  apocalypseResearchMaterial: 'apocalypse-crystal',
+  astronomyTome: 'tome',
+  gloryCodex: 'codex',
+  goldStatue: 'gold-statue',
+  apocalypseCodex: 'apocalypse-codex',
+  silverStatue: 'silver-statue',
+};

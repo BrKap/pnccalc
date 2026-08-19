@@ -1,0 +1,51 @@
+# Dependencies and package-manager caches
+node_modules/
+**/node_modules/
+.npm-cache/
+.pnpm-store/
+.yarn/
+
+# Build and test output
+dist/
+**/dist/
+coverage/
+**/coverage/
+.vite/
+**/.vite/
+.cache/
+.jest-cache/
+.eslintcache
+
+# Private source data and generated audit metadata
+# Normalized runtime JSON under packages/frontend/src remains trackable.
+BuildingData/
+ResearchData/
+export-metadata/
+scripts/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local editor and Codex state
+.vscode/
+.idea/
+.codex/
+.agents/
+*.swp
+*.swo
+*~
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini

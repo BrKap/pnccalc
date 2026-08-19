@@ -1,0 +1,12 @@
+PNC calculators for Puzzles & Chaos.
+
+The site currently includes Research and Building calculators. Calculator values and reduction
+settings persist in the browser between visits.
+
+Development:
+
+```text
+npm run dev
+npm test
+npm run build
+```

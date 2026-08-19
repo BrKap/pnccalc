@@ -1,0 +1,20 @@
+{
+  "name": "pnccalc",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/frontend",
+    "packages/jest"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @pnccalc/frontend",
+    "build": "npm run build --workspace @pnccalc/frontend",
+    "preview": "npm run preview --workspace @pnccalc/frontend",
+    "test": "npm run test --workspace @pnccalc/jest",
+    "export:building": "node scripts/export-building-data.mjs",
+    "export:research": "node scripts/export-research-data.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
