@@ -56,11 +56,14 @@
   margin: 0 auto 18px;
   max-width: 1500px;
   overflow-x: auto;
+  overscroll-behavior-inline: contain;
   padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .category-tab {
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -145,11 +148,15 @@
 }
 
 .table-shell {
-  overflow: visible;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .calculator-page table {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   table-layout: auto;
 }
@@ -270,7 +277,7 @@
   color: var(--accent);
 }
 
-.top-panels[hidden] {
+.panel-group .top-panels[hidden] {
   display: none;
 }
 
