@@ -770,6 +770,26 @@
   width: 100%;
 }
 
+.number-input-control {
+  position: relative;
+  display: block;
+}
+
+.number-input-control input {
+  padding-right: 48px;
+}
+
+.number-input-suffix {
+  position: absolute;
+  top: 50%;
+  right: 28px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
 .field select {
   width: 100%;
 }

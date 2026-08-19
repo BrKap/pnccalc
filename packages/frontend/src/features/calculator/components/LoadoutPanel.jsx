@@ -100,16 +100,17 @@ export default function LoadoutPanel({ config, loadout, setLoadout, images = {} 
         <fieldset className="loadout-options speed-options">
           <legend>Speed</legend>
           <NumberInput
-            label={config.speedLabel}
+            label={`${config.speedLabel} (%)`}
             value={loadout.speedPercent ?? 0}
             min={0}
             max={1000}
+            suffix="%"
             onChange={(value) => setLoadout((current) => ({
               ...current,
               speedPercent: Math.max(0, value),
             }))}
           />
-          <p>This is the only reduction value entered manually.</p>
+          <p>Enter the percentage bonus indicated from your Lord Detail's page in game.</p>
         </fieldset>
       </div>
     </section>

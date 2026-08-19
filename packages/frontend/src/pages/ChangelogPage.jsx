@@ -4,6 +4,11 @@ import '../styles/changelog.css';
 
 const releases = [
   {
+    version: '1.1.1',
+    title: 'Minor UI Fixes',
+    description: 'Rearranged the main page. Fixed construction/research speed UI.',
+  },
+  {
     version: '1.1',
     title: 'Gear, Heroes & Details',
     description: 'Added Gear and Heroes for Cost Reductions along with hover/click information for them and the upgrades.',
