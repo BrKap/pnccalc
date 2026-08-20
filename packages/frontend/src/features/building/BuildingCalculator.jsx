@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { ArrowLeft, ListChecks, Search } from 'lucide-react';
-import useLocalStorageState from '../../hooks/useLocalStorageState';
 import TotalsPanel from '../calculator/components/TotalsPanel.jsx';
 import BulkLevelControls from '../calculator/components/BulkLevelControls.jsx';
 import CollapsiblePanelGroup from '../calculator/components/CollapsiblePanelGroup.jsx';
@@ -17,6 +16,8 @@ import {
 import { createBuildingRows } from './lib/createBuildingRows';
 import { builderLoadoutConfig } from './data/builderLoadout';
 import { builderLoadoutImages } from './data/builderLoadoutImages';
+import PresetControl from '../presets/PresetControl.jsx';
+import { usePresetField } from '../presets/PresetContext.jsx';
 import '../research/research.css';
 
 const buildingRows = createBuildingRows(buildings);
@@ -29,16 +30,13 @@ const defaultLoadout = {
 
 export default function BuildingCalculator({ onNavigateHome }) {
   const [query, setQuery] = useState('');
-  const [selections, setSelections] = useLocalStorageState('pnc-building-selections-v1', {});
-  const [loadout, setLoadout] = useLocalStorageState(
-    'pnc-building-loadout-v1',
-    defaultLoadout,
-  );
+  const [selections, setSelections] = usePresetField('buildingSelections', {});
+  const [loadout, setLoadout] = usePresetField('buildingLoadout', defaultLoadout);
   const reductions = useMemo(
     () => calculateLoadoutReductions(builderLoadoutConfig, loadout),
     [loadout],
   );
-  const [enabledRows, setEnabledRows] = useLocalStorageState('pnc-building-enabled-rows-v1', {});
+  const [enabledRows, setEnabledRows] = usePresetField('enabledBuildings', {});
   const visibleRows = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     return normalizedQuery
@@ -69,9 +67,12 @@ export default function BuildingCalculator({ onNavigateHome }) {
           <p className="eyebrow">Puzzles & Chaos</p>
           <h1>Building Calculator</h1>
         </div>
-        <div className="data-pill">
-          <ListChecks size={16} />
-          {buildingRows.length} building slots
+        <div className="header-actions">
+          <PresetControl />
+          <div className="data-pill">
+            <ListChecks size={16} />
+            {buildingRows.length} building slots
+          </div>
         </div>
       </header>
 

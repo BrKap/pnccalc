@@ -23,6 +23,7 @@ ResearchData/
 export-metadata/
 scripts/
 notes/
+docs/
 
 # Local environment and secrets
 .env

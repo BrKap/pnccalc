@@ -27,12 +27,15 @@ export default function ResearchRow({
   );
   const nextLevel = selection.currentLevel + 1;
   const nextLevelData = item.levels.find((entry) => entry.level === nextLevel);
+  const targetLevelData = item.levels.find((entry) => entry.level === selection.targetLevel);
   const nextLevelTotal = selection.currentLevel < item.maxLevel
     ? calculateResearchCost(item, selection.currentLevel, nextLevel, reductions)
     : null;
-  const prerequisites = [
-    ...(nextLevelData?.institute > 0 ? [`Institute Level ${nextLevelData.institute}`] : []),
-    ...(nextLevelData?.requirements ?? []).map((requirement) => {
+  const formatPrerequisites = (levelData) => [
+    ...(levelData?.institute > 0
+      ? [`Research Institute Level ${levelData.institute}`]
+      : []),
+    ...(levelData?.requirements ?? []).map((requirement) => {
       const requiredResearch = researchById.get(requirement.researchId);
       return `${requiredResearch?.name ?? 'Research prerequisite'} Level ${requirement.level}`;
     }),
@@ -77,8 +80,10 @@ export default function ResearchRow({
               maxLevel={item.maxLevel}
               nextResult={nextLevelTotal}
               totalResult={rowTotal}
-              prerequisites={prerequisites}
+              nextPrerequisites={formatPrerequisites(nextLevelData)}
+              targetPrerequisites={formatPrerequisites(targetLevelData)}
               resourceTypes={RESOURCE_TYPES}
+              plannerPath={`#/planner/research/${encodeURIComponent(item.id)}`}
             />
           </InfoPopover>
         </span>

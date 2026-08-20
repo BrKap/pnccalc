@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ListTree } from 'lucide-react';
 import ResourceBadge from './ResourceBadge.jsx';
 import { formatNumber, formatTime } from '../formatters';
 
@@ -50,12 +51,26 @@ export default function UpgradeDetails({
   maxLevel,
   nextResult,
   totalResult,
-  prerequisites,
+  nextPrerequisites,
+  targetPrerequisites,
   resourceTypes,
+  plannerPath,
 }) {
+  const [scope, setScope] = useState('next');
   const nextLevel = currentLevel + 1;
   const hasNextLevel = currentLevel < maxLevel;
   const hasRange = targetLevel > currentLevel;
+  const isTargetScope = scope === 'target';
+  const prerequisiteLevel = isTargetScope ? targetLevel : nextLevel;
+  const prerequisites = isTargetScope ? targetPrerequisites : nextPrerequisites;
+  const result = isTargetScope ? totalResult : nextResult;
+  const hasSelection = isTargetScope ? hasRange : hasNextLevel;
+  const costTitle = isTargetScope
+    ? hasRange ? `Levels ${nextLevel}–${targetLevel}` : 'Selected range'
+    : hasNextLevel ? `Level ${nextLevel}` : 'Next level';
+  const emptyMessage = isTargetScope
+    ? 'Choose a target above the current level.'
+    : 'Maximum level reached.';
 
   return (
     <div className="popover-content upgrade-details">
@@ -65,31 +80,53 @@ export default function UpgradeDetails({
       </div>
       <p className="popover-note">Costs and time include your active reductions and speed bonus.</p>
 
+      <div className="upgrade-scope-toggle" role="group" aria-label="Upgrade detail level">
+        <button
+          type="button"
+          className={isTargetScope ? '' : 'active'}
+          aria-pressed={!isTargetScope}
+          onClick={() => setScope('next')}
+        >
+          Next level
+        </button>
+        <button
+          type="button"
+          className={isTargetScope ? 'active' : ''}
+          aria-pressed={isTargetScope}
+          onClick={() => setScope('target')}
+        >
+          Target level
+        </button>
+      </div>
+
       <section className="prerequisite-block">
-        <h4>Prerequisites{hasNextLevel ? ` for Level ${nextLevel}` : ''}</h4>
-        {hasNextLevel && prerequisites.length ? (
+        <h4>Prerequisites{hasSelection ? ` for Level ${prerequisiteLevel}` : ''}</h4>
+        {hasSelection && prerequisites.length ? (
           <ul>
             {prerequisites.map((prerequisite) => (
               <li key={prerequisite}>{prerequisite}</li>
             ))}
           </ul>
         ) : (
-          <p>{hasNextLevel ? 'None' : 'Maximum level reached'}</p>
+          <p>{hasSelection ? 'None' : emptyMessage}</p>
         )}
       </section>
 
       <CostBlock
-        title={hasNextLevel ? `Level ${nextLevel}` : 'Next level'}
-        result={hasNextLevel ? nextResult : null}
+        title={costTitle}
+        result={hasSelection ? result : null}
         resourceTypes={resourceTypes}
-        emptyMessage="Maximum level reached."
+        emptyMessage={emptyMessage}
       />
-      <CostBlock
-        title={hasRange ? `Levels ${nextLevel}–${targetLevel}` : 'Selected range'}
-        result={hasRange ? totalResult : null}
-        resourceTypes={resourceTypes}
-        emptyMessage="Choose a target above the current level."
-      />
+      {plannerPath && hasSelection && (
+        <a
+          className="planner-link"
+          href={`${plannerPath}?level=${prerequisiteLevel}`}
+        >
+          <ListTree size={15} />
+          Open full prerequisite planner
+        </a>
+      )}
     </div>
   );
 }

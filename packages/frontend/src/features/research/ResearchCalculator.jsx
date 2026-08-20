@@ -2,7 +2,6 @@ import React, { useMemo, useState } from 'react';
 import { ArrowLeft, ListChecks, Search } from 'lucide-react';
 import categories from './data/categories.json';
 import research from './data/research.json';
-import useLocalStorageState from '../../hooks/useLocalStorageState';
 import TotalsPanel from '../calculator/components/TotalsPanel.jsx';
 import BulkLevelControls from '../calculator/components/BulkLevelControls.jsx';
 import CollapsiblePanelGroup from '../calculator/components/CollapsiblePanelGroup.jsx';
@@ -15,6 +14,8 @@ import ReductionsPanel from './components/ReductionsPanel.jsx';
 import ResearchTable from './components/ResearchTable.jsx';
 import { researchLoadoutConfig } from './data/researchLoadout';
 import { researchLoadoutImages } from './data/researchLoadoutImages';
+import PresetControl from '../presets/PresetControl.jsx';
+import { usePresetField } from '../presets/PresetContext.jsx';
 import './research.css';
 
 const researchById = new Map(research.map((item) => [item.id, item]));
@@ -28,18 +29,15 @@ const defaultLoadout = {
 export default function ResearchCalculator({ onNavigateHome }) {
   const [selectedCategoryId, setSelectedCategoryId] = useState(categories[0]?.id ?? '');
   const [query, setQuery] = useState('');
-  const [selections, setSelections] = useLocalStorageState('pnc-research-selections-v3', {});
-  const [loadout, setLoadout] = useLocalStorageState(
-    'pnc-research-loadout-v1',
-    defaultLoadout,
-  );
+  const [selections, setSelections] = usePresetField('researchSelections', {});
+  const [loadout, setLoadout] = usePresetField('researchLoadout', defaultLoadout);
   const reductions = useMemo(
     () => calculateLoadoutReductions(researchLoadoutConfig, loadout),
     [loadout],
   );
-  const [enabledRows, setEnabledRows] = useLocalStorageState('pnc-research-enabled-rows-v2', {});
-  const [enabledCategories, setEnabledCategories] = useLocalStorageState(
-    'pnc-research-enabled-categories-v1',
+  const [enabledRows, setEnabledRows] = usePresetField('enabledResearch', {});
+  const [enabledCategories, setEnabledCategories] = usePresetField(
+    'enabledResearchCategories',
     {},
   );
 
@@ -101,9 +99,12 @@ export default function ResearchCalculator({ onNavigateHome }) {
           <p className="eyebrow">Puzzles & Chaos</p>
           <h1>Research Calculator</h1>
         </div>
-        <div className="data-pill">
-          <ListChecks size={16} />
-          {research.length} research entries
+        <div className="header-actions">
+          <PresetControl />
+          <div className="data-pill">
+            <ListChecks size={16} />
+            {research.length} research entries
+          </div>
         </div>
       </header>
 

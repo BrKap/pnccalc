@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 
 export default function useLocalStorageState(key, initialValue) {
   const [value, setValue] = useState(() => {
+    const resolveInitialValue = () => (
+      typeof initialValue === 'function' ? initialValue() : initialValue
+    );
     try {
       const storedValue = window.localStorage.getItem(key);
-      return storedValue === null ? initialValue : JSON.parse(storedValue);
+      return storedValue === null ? resolveInitialValue() : JSON.parse(storedValue);
     } catch {
-      return initialValue;
+      return resolveInitialValue();
     }
   });
 

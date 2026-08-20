@@ -26,10 +26,11 @@ export default function BuildingRow({
   );
   const nextLevel = selection.currentLevel + 1;
   const nextLevelData = building.levels.find((entry) => entry.level === nextLevel);
+  const targetLevelData = building.levels.find((entry) => entry.level === selection.targetLevel);
   const nextLevelTotal = selection.currentLevel < building.maxLevel
     ? calculateBuildingCost(building, selection.currentLevel, nextLevel, reductions)
     : null;
-  const prerequisites = (nextLevelData?.requirements ?? []).map(
+  const formatPrerequisites = (levelData) => (levelData?.requirements ?? []).map(
     (requirement) => `${requirement.building} Level ${requirement.level}`,
   );
 
@@ -72,8 +73,10 @@ export default function BuildingRow({
               maxLevel={building.maxLevel}
               nextResult={nextLevelTotal}
               totalResult={rowTotal}
-              prerequisites={prerequisites}
+              nextPrerequisites={formatPrerequisites(nextLevelData)}
+              targetPrerequisites={formatPrerequisites(targetLevelData)}
               resourceTypes={BUILDING_RESOURCE_TYPES}
+              plannerPath={`#/planner/building/${encodeURIComponent(row.id)}`}
             />
           </InfoPopover>
         </span>
