@@ -4,6 +4,11 @@ import '../styles/changelog.css';
 
 const releases = [
   {
+    version: '1.2.1',
+    title: 'Contact and notice',
+    description: 'Added a contact page and a notice that the website is not affliated with the game developers and some upgrade costs are estimations. Also a few UI fixes.',
+  },
+  {
     version: '1.2',
     title: 'Presets and Prerequisite',
     description: 'Added Presets. Export/Import to share across devices or with friends. Added a UI change to show the current and target levels for each upgrade. Created a prerequisites planner.',

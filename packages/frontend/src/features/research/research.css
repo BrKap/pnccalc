@@ -635,6 +635,20 @@
   font-size: 16px;
 }
 
+.popover-item-title {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+}
+
+.popover-item-title img {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
 .popover-title-row > span {
   flex: 0 0 auto;
   border-radius: 999px;

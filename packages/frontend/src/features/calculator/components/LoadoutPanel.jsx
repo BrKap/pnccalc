@@ -26,7 +26,12 @@ function SelectionField({ item, group, value, setLoadout, image }) {
             label={`Show ${item.name} reductions`}
             triggerClassName="loadout-icon-button"
           >
-            <LoadoutEffectDetails item={item} selection={selection} group={group} />
+            <LoadoutEffectDetails
+              item={item}
+              selection={selection}
+              group={group}
+              image={image}
+            />
           </InfoPopover>
         )}
         <label htmlFor={fieldId}>{item.name}</label>

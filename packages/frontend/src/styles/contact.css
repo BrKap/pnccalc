@@ -1,0 +1,87 @@
+.contact-page {
+  display: grid;
+  max-width: 760px;
+  margin: 0 auto;
+  align-content: start;
+  gap: 20px;
+  padding-top: 48px;
+}
+
+.contact-back {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted-strong);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.contact-back:hover,
+.contact-back:focus-visible {
+  color: var(--accent);
+}
+
+.contact-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 14px 36px var(--shadow);
+  padding: 32px;
+}
+
+.contact-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.contact-card h1 {
+  margin: 0;
+  font-size: 36px;
+}
+
+.contact-card > p:not(.eyebrow) {
+  max-width: 580px;
+  margin: 14px 0 24px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.discord-contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: 9px;
+  background: var(--surface-subtle);
+  padding: 14px 16px;
+}
+
+.discord-contact span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.discord-contact strong {
+  color: var(--text);
+  font-size: 17px;
+}
+
+@media (max-width: 700px) {
+  .contact-page {
+    padding-top: 28px;
+  }
+
+  .contact-card {
+    padding: 24px;
+  }
+}

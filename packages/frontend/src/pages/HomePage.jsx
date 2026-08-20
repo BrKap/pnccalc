@@ -81,6 +81,7 @@ export default function HomePage({ onNavigate }) {
 
       <footer className="home-footer">
         <a href="#/changelog">Changelog</a>
+        <a href="#/contact">Contact</a>
       </footer>
     </main>
   );

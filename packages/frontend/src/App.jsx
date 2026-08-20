@@ -6,6 +6,8 @@ import ThemeControl from './features/calculator/components/ThemeControl.jsx';
 import ChangelogPage from './pages/ChangelogPage.jsx';
 import { PresetProvider } from './features/presets/PresetContext.jsx';
 import PlannerPage from './features/planner/PlannerPage.jsx';
+import ContactPage from './pages/ContactPage.jsx';
+import EstimationNotice from './components/EstimationNotice.jsx';
 
 const ROUTES = {
   home: 'home',
@@ -13,6 +15,7 @@ const ROUTES = {
   building: 'building',
   changelog: 'changelog',
   planner: 'planner',
+  contact: 'contact',
 };
 
 function getRoute(hash) {
@@ -20,6 +23,7 @@ function getRoute(hash) {
   if (hash === '#/research') return ROUTES.research;
   if (hash === '#/building') return ROUTES.building;
   if (hash === '#/changelog') return ROUTES.changelog;
+  if (hash === '#/contact') return ROUTES.contact;
   return ROUTES.home;
 }
 
@@ -49,6 +53,7 @@ export default function App() {
       [ROUTES.research]: '#/research',
       [ROUTES.building]: '#/building',
       [ROUTES.changelog]: '#/changelog',
+      [ROUTES.contact]: '#/contact',
       [ROUTES.home]: '#/',
     };
     window.location.hash = hashes[nextRoute] ?? hashes[ROUTES.home];
@@ -71,12 +76,17 @@ export default function App() {
       return <PlannerPage planner={parsePlannerHash(locationHash)} />;
     }
 
+    if (route === ROUTES.contact) {
+      return <ContactPage />;
+    }
+
     return <HomePage onNavigate={navigate} />;
   }, [route, locationHash]);
 
   return (
     <PresetProvider>
       <ThemeControl />
+      <EstimationNotice />
       {page}
     </PresetProvider>
   );

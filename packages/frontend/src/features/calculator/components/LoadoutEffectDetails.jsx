@@ -2,13 +2,16 @@ import React from 'react';
 import { RESOURCE_LABELS } from '../resourceConfig';
 import { formatNumber } from '../formatters';
 
-export default function LoadoutEffectDetails({ item, selection, group }) {
+export default function LoadoutEffectDetails({ item, selection, group, image }) {
   const effects = item.levels[selection];
 
   return (
     <div className="popover-content">
       <div className="popover-title-row">
-        <h3>{item.name}</h3>
+        <div className="popover-item-title">
+          {image && <img src={image} alt="" aria-hidden="true" />}
+          <h3>{item.name}</h3>
+        </div>
         <span>{selection === '' || selection == null
           ? 'Not selected'
           : group === 'gear' ? `${selection} star` : `+${selection}`}</span>
