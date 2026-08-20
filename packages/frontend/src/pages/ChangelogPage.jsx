@@ -4,6 +4,11 @@ import '../styles/changelog.css';
 
 const releases = [
   {
+    version: '1.2',
+    title: 'Added Presets. Export/Import to share across devices or with friends. Added a UI change to show the current and target levels for each upgrade. Created a prerequisites planner.',
+    description: 'Rearranged the main page. Fixed construction/research speed UI.',
+  },
+  {
     version: '1.1.1',
     title: 'Minor UI Fixes',
     description: 'Rearranged the main page. Fixed construction/research speed UI.',
