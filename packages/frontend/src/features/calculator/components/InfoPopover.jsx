@@ -23,6 +23,7 @@ export default function InfoPopover({
   const popoverRef = useRef(null);
   const closeTimerRef = useRef(null);
   const openedByPointerFocusRef = useRef(false);
+  const pointerActivationRef = useRef(false);
   const popoverId = useId();
 
   const cancelClose = useCallback(() => {
@@ -126,6 +127,7 @@ export default function InfoPopover({
         aria-controls={open ? popoverId : undefined}
         onPointerDown={() => {
           if (!toggleOnClick) return;
+          pointerActivationRef.current = true;
           openedByPointerFocusRef.current = (
             document.activeElement !== triggerRef.current && !open
           );
@@ -139,15 +141,18 @@ export default function InfoPopover({
 
           if (openedByPointerFocusRef.current) {
             openedByPointerFocusRef.current = false;
+            pointerActivationRef.current = false;
             return;
           }
 
           cancelClose();
           if (open) {
             setOpen(false);
+            if (pointerActivationRef.current) triggerRef.current?.blur();
           } else {
             openPopover();
           }
+          pointerActivationRef.current = false;
         }}
         onFocus={openPopover}
       >
