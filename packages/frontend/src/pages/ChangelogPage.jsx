@@ -4,6 +4,11 @@ import '../styles/changelog.css';
 
 const releases = [
   {
+    version: '1.2.2',
+    title: 'Mobile UI Changes',
+    description: 'Fixed some mobile UI issues. Made Simplified view settings for easier Mobile use. Standard View still exists for PC users and Mobile users if they want to use it.',
+  },
+  {
     version: '1.2.1',
     title: 'Contact and notice',
     description: 'Added a contact page and a notice that the website is not affliated with the game developers and some upgrade costs are estimations. Also a few UI fixes.',

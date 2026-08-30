@@ -21,14 +21,15 @@ export default function BuildingTable({
         <thead>
           <tr>
             <th><span className="visually-hidden">Include</span></th>
-            <th>Building</th>
+            <th>Upgrade</th>
             <th>Current</th>
             <th>Target</th>
+            <th className="mobile-details-heading"><span className="visually-hidden">Details</span></th>
             {BUILDING_RESOURCE_TYPES.map((resource) => (
-              <th key={resource}><ResourceBadge resource={resource} compact /></th>
+              <th className="cost-column" key={resource}><ResourceBadge resource={resource} compact /></th>
             ))}
-            <th>Time</th>
-            <th>Power</th>
+            <th className="cost-column">Time</th>
+            <th className="cost-column">Power</th>
           </tr>
         </thead>
         <tbody>

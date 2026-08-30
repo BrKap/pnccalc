@@ -8,6 +8,8 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 
+const OPEN_POPOVER_EVENT = 'pnccalc:open-info-popover';
+
 export default function InfoPopover({ trigger, label, children, triggerClassName = '' }) {
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState({ left: 12, top: 12, width: 340 });
@@ -20,6 +22,14 @@ export default function InfoPopover({ trigger, label, children, triggerClassName
     if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
     closeTimerRef.current = null;
   }, []);
+
+  const openPopover = useCallback(() => {
+    cancelClose();
+    document.dispatchEvent(new CustomEvent(OPEN_POPOVER_EVENT, {
+      detail: { popoverId },
+    }));
+    setOpen(true);
+  }, [cancelClose, popoverId]);
 
   const scheduleClose = useCallback(() => {
     cancelClose();
@@ -62,6 +72,14 @@ export default function InfoPopover({ trigger, label, children, triggerClassName
   }, [open, updatePosition]);
 
   useEffect(() => {
+    const onAnotherPopoverOpen = (event) => {
+      if (event.detail?.popoverId !== popoverId) setOpen(false);
+    };
+    document.addEventListener(OPEN_POPOVER_EVENT, onAnotherPopoverOpen);
+    return () => document.removeEventListener(OPEN_POPOVER_EVENT, onAnotherPopoverOpen);
+  }, [popoverId]);
+
+  useEffect(() => {
     if (!open) return undefined;
     const onPointerDown = (event) => {
       if (
@@ -88,8 +106,7 @@ export default function InfoPopover({ trigger, label, children, triggerClassName
     <span
       className="info-popover-anchor"
       onMouseEnter={() => {
-        cancelClose();
-        setOpen(true);
+        openPopover();
       }}
       onMouseLeave={scheduleClose}
     >
@@ -100,8 +117,8 @@ export default function InfoPopover({ trigger, label, children, triggerClassName
         aria-label={label}
         aria-expanded={open}
         aria-controls={open ? popoverId : undefined}
-        onClick={() => setOpen(true)}
-        onFocus={() => setOpen(true)}
+        onClick={openPopover}
+        onFocus={openPopover}
       >
         {trigger}
       </button>

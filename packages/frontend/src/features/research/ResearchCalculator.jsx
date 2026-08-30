@@ -16,6 +16,9 @@ import { researchLoadoutConfig } from './data/researchLoadout';
 import { researchLoadoutImages } from './data/researchLoadoutImages';
 import PresetControl from '../presets/PresetControl.jsx';
 import { usePresetField } from '../presets/PresetContext.jsx';
+import TableLayoutControl, {
+  useTableLayout,
+} from '../calculator/components/TableLayoutControl.jsx';
 import './research.css';
 
 const researchById = new Map(research.map((item) => [item.id, item]));
@@ -29,6 +32,7 @@ const defaultLoadout = {
 export default function ResearchCalculator({ onNavigateHome }) {
   const [selectedCategoryId, setSelectedCategoryId] = useState(categories[0]?.id ?? '');
   const [query, setQuery] = useState('');
+  const [tableLayout, setTableLayout] = useTableLayout();
   const [selections, setSelections] = usePresetField('researchSelections', {});
   const [loadout, setLoadout] = usePresetField('researchLoadout', defaultLoadout);
   const reductions = useMemo(
@@ -89,7 +93,7 @@ export default function ResearchCalculator({ onNavigateHome }) {
   };
 
   return (
-    <main className="calculator-page research-page">
+    <main className={`calculator-page research-page layout-${tableLayout}`}>
       <header className="app-header">
         <div>
           <button type="button" className="back-button" onClick={onNavigateHome}>
@@ -162,6 +166,7 @@ export default function ResearchCalculator({ onNavigateHome }) {
                 onChange={(event) => setQuery(event.target.value)}
               />
             </label>
+            <TableLayoutControl layout={tableLayout} onChange={setTableLayout} />
             <BulkLevelControls
               maxLevel={maxCategoryLevel}
               onApplyCurrent={(value) => setSelections((current) => (

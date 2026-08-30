@@ -18,6 +18,9 @@ import { builderLoadoutConfig } from './data/builderLoadout';
 import { builderLoadoutImages } from './data/builderLoadoutImages';
 import PresetControl from '../presets/PresetControl.jsx';
 import { usePresetField } from '../presets/PresetContext.jsx';
+import TableLayoutControl, {
+  useTableLayout,
+} from '../calculator/components/TableLayoutControl.jsx';
 import '../research/research.css';
 
 const buildingRows = createBuildingRows(buildings);
@@ -30,6 +33,7 @@ const defaultLoadout = {
 
 export default function BuildingCalculator({ onNavigateHome }) {
   const [query, setQuery] = useState('');
+  const [tableLayout, setTableLayout] = useTableLayout();
   const [selections, setSelections] = usePresetField('buildingSelections', {});
   const [loadout, setLoadout] = usePresetField('buildingLoadout', defaultLoadout);
   const reductions = useMemo(
@@ -57,7 +61,7 @@ export default function BuildingCalculator({ onNavigateHome }) {
   };
 
   return (
-    <main className="calculator-page building-page">
+    <main className={`calculator-page building-page layout-${tableLayout}`}>
       <header className="app-header">
         <div>
           <button type="button" className="back-button" onClick={onNavigateHome}>
@@ -113,6 +117,7 @@ export default function BuildingCalculator({ onNavigateHome }) {
                 onChange={(event) => setQuery(event.target.value)}
               />
             </label>
+            <TableLayoutControl layout={tableLayout} onChange={setTableLayout} />
             <BulkLevelControls
               maxLevel={maxBuildingLevel}
               onApplyCurrent={(value) => setSelections((current) => (

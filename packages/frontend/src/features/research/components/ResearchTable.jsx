@@ -24,19 +24,20 @@ export default function ResearchTable({
         <thead>
           <tr>
             <th><span className="visually-hidden">Include</span></th>
-            <th>Research</th>
+            <th>Upgrade</th>
             <th>Current</th>
             <th>Target</th>
-            <th><ResourceBadge resource="food" compact /></th>
-            <th><ResourceBadge resource="wood" compact /></th>
-            <th><ResourceBadge resource="stone" compact /></th>
-            <th><ResourceBadge resource="iron" compact /></th>
-            <th><ResourceBadge resource="ancientTome" compact /></th>
-            <th><ResourceBadge resource="documentFragment" compact /></th>
-            <th><ResourceBadge resource="inscription" compact /></th>
-            <th><ResourceBadge resource="apocalypseResearchMaterial" compact /></th>
-            <th>Time</th>
-            <th>Power</th>
+            <th className="mobile-details-heading"><span className="visually-hidden">Details</span></th>
+            <th className="cost-column"><ResourceBadge resource="food" compact /></th>
+            <th className="cost-column"><ResourceBadge resource="wood" compact /></th>
+            <th className="cost-column"><ResourceBadge resource="stone" compact /></th>
+            <th className="cost-column"><ResourceBadge resource="iron" compact /></th>
+            <th className="cost-column"><ResourceBadge resource="ancientTome" compact /></th>
+            <th className="cost-column"><ResourceBadge resource="documentFragment" compact /></th>
+            <th className="cost-column"><ResourceBadge resource="inscription" compact /></th>
+            <th className="cost-column"><ResourceBadge resource="apocalypseResearchMaterial" compact /></th>
+            <th className="cost-column">Time</th>
+            <th className="cost-column">Power</th>
           </tr>
         </thead>
         <tbody>

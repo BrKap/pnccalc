@@ -1,5 +1,5 @@
 import React from 'react';
-import { Info } from 'lucide-react';
+import { Info, Plus } from 'lucide-react';
 import { formatNumber, formatTime } from '../../calculator/formatters';
 import InfoPopover from '../../calculator/components/InfoPopover.jsx';
 import UpgradeDetails from '../../calculator/components/UpgradeDetails.jsx';
@@ -49,7 +49,7 @@ export default function BuildingRow({
   };
 
   return (
-    <tr className={enabled ? '' : 'excluded-row'}>
+    <tr className={`upgrade-row${enabled ? '' : ' excluded-row'}`}>
       <td className="include-cell">
         <input
           type="checkbox"
@@ -60,7 +60,7 @@ export default function BuildingRow({
       </td>
       <th scope="row">
         <span className="research-name upgrade-name">
-          {row.name}
+          <span>{row.name}</span>
           <InfoPopover
             trigger={<Info size={14} aria-hidden="true" />}
             label={`Show ${row.name} upgrade details`}
@@ -82,7 +82,7 @@ export default function BuildingRow({
         </span>
         <span className="research-meta">Max {building.maxLevel}</span>
       </th>
-      <td>
+      <td className="current-level-cell">
         <select
           value={selection.currentLevel}
           onChange={(event) => updateCurrentLevel(Number(event.target.value))}
@@ -93,7 +93,7 @@ export default function BuildingRow({
           ))}
         </select>
       </td>
-      <td>
+      <td className="target-level-cell">
         <select
           value={selection.targetLevel}
           onChange={(event) => updateTargetLevel(Number(event.target.value))}
@@ -106,11 +106,31 @@ export default function BuildingRow({
           ))}
         </select>
       </td>
+      <td className="mobile-details-cell">
+        <InfoPopover
+          trigger={<Plus size={19} aria-hidden="true" />}
+          label={`Show ${row.name} upgrade details`}
+          triggerClassName="row-info-button mobile-expand-button"
+        >
+          <UpgradeDetails
+            name={row.name}
+            currentLevel={selection.currentLevel}
+            targetLevel={selection.targetLevel}
+            maxLevel={building.maxLevel}
+            nextResult={nextLevelTotal}
+            totalResult={rowTotal}
+            nextPrerequisites={formatPrerequisites(nextLevelData)}
+            targetPrerequisites={formatPrerequisites(targetLevelData)}
+            resourceTypes={BUILDING_RESOURCE_TYPES}
+            plannerPath={`#/planner/building/${encodeURIComponent(row.id)}`}
+          />
+        </InfoPopover>
+      </td>
       {BUILDING_RESOURCE_TYPES.map((resource) => (
-        <td key={resource}>{formatNumber(rowTotal.resources[resource])}</td>
+        <td className="cost-cell" key={resource}>{formatNumber(rowTotal.resources[resource])}</td>
       ))}
-      <td>{formatTime(rowTotal.timeSeconds)}</td>
-      <td>{formatNumber(rowTotal.power)}</td>
+      <td className="cost-cell">{formatTime(rowTotal.timeSeconds)}</td>
+      <td className="cost-cell">{formatNumber(rowTotal.power)}</td>
     </tr>
   );
 }

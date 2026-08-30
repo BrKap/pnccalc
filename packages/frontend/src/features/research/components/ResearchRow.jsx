@@ -1,5 +1,5 @@
 import React from 'react';
-import { Info } from 'lucide-react';
+import { Info, Plus } from 'lucide-react';
 import {
   RESOURCE_TYPES,
   calculateResearchCost,
@@ -56,7 +56,7 @@ export default function ResearchRow({
   };
 
   return (
-    <tr className={enabled ? '' : 'excluded-row'}>
+    <tr className={`upgrade-row${enabled ? '' : ' excluded-row'}`}>
       <td className="include-cell">
         <input
           type="checkbox"
@@ -67,7 +67,7 @@ export default function ResearchRow({
       </td>
       <th scope="row">
         <span className="research-name upgrade-name">
-          {researchName}
+          <span>{researchName}</span>
           <InfoPopover
             trigger={<Info size={14} aria-hidden="true" />}
             label={`Show ${researchName} upgrade details`}
@@ -89,7 +89,7 @@ export default function ResearchRow({
         </span>
         <span className="research-meta">Max {item.maxLevel}</span>
       </th>
-      <td>
+      <td className="current-level-cell">
         <select
           value={selection.currentLevel}
           onChange={(event) => updateCurrentLevel(Number(event.target.value))}
@@ -102,7 +102,7 @@ export default function ResearchRow({
           ))}
         </select>
       </td>
-      <td>
+      <td className="target-level-cell">
         <select
           value={selection.targetLevel}
           onChange={(event) => updateTargetLevel(Number(event.target.value))}
@@ -115,16 +115,36 @@ export default function ResearchRow({
           ))}
         </select>
       </td>
-      <td>{formatNumber(rowTotal.resources.food)}</td>
-      <td>{formatNumber(rowTotal.resources.wood)}</td>
-      <td>{formatNumber(rowTotal.resources.stone)}</td>
-      <td>{formatNumber(rowTotal.resources.iron)}</td>
-      <td>{formatNumber(rowTotal.resources.ancientTome)}</td>
-      <td>{formatNumber(rowTotal.resources.documentFragment)}</td>
-      <td>{formatNumber(rowTotal.resources.inscription)}</td>
-      <td>{formatNumber(rowTotal.resources.apocalypseResearchMaterial)}</td>
-      <td>{formatTime(rowTotal.timeSeconds)}</td>
-      <td>{formatNumber(rowTotal.power)}</td>
+      <td className="mobile-details-cell">
+        <InfoPopover
+          trigger={<Plus size={19} aria-hidden="true" />}
+          label={`Show ${researchName} upgrade details`}
+          triggerClassName="row-info-button mobile-expand-button"
+        >
+          <UpgradeDetails
+            name={researchName}
+            currentLevel={selection.currentLevel}
+            targetLevel={selection.targetLevel}
+            maxLevel={item.maxLevel}
+            nextResult={nextLevelTotal}
+            totalResult={rowTotal}
+            nextPrerequisites={formatPrerequisites(nextLevelData)}
+            targetPrerequisites={formatPrerequisites(targetLevelData)}
+            resourceTypes={RESOURCE_TYPES}
+            plannerPath={`#/planner/research/${encodeURIComponent(item.id)}`}
+          />
+        </InfoPopover>
+      </td>
+      <td className="cost-cell">{formatNumber(rowTotal.resources.food)}</td>
+      <td className="cost-cell">{formatNumber(rowTotal.resources.wood)}</td>
+      <td className="cost-cell">{formatNumber(rowTotal.resources.stone)}</td>
+      <td className="cost-cell">{formatNumber(rowTotal.resources.iron)}</td>
+      <td className="cost-cell">{formatNumber(rowTotal.resources.ancientTome)}</td>
+      <td className="cost-cell">{formatNumber(rowTotal.resources.documentFragment)}</td>
+      <td className="cost-cell">{formatNumber(rowTotal.resources.inscription)}</td>
+      <td className="cost-cell">{formatNumber(rowTotal.resources.apocalypseResearchMaterial)}</td>
+      <td className="cost-cell">{formatTime(rowTotal.timeSeconds)}</td>
+      <td className="cost-cell">{formatNumber(rowTotal.power)}</td>
     </tr>
   );
 }
