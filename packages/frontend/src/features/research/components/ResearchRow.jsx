@@ -120,6 +120,7 @@ export default function ResearchRow({
           trigger={<Plus size={19} aria-hidden="true" />}
           label={`Show ${researchName} upgrade details`}
           triggerClassName="row-info-button mobile-expand-button"
+          toggleOnClick
         >
           <UpgradeDetails
             name={researchName}

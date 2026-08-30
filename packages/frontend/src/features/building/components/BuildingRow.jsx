@@ -111,6 +111,7 @@ export default function BuildingRow({
           trigger={<Plus size={19} aria-hidden="true" />}
           label={`Show ${row.name} upgrade details`}
           triggerClassName="row-info-button mobile-expand-button"
+          toggleOnClick
         >
           <UpgradeDetails
             name={row.name}
