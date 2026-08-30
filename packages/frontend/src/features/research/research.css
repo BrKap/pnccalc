@@ -595,8 +595,9 @@
   color: var(--muted);
 }
 
-.row-info-button:hover,
-.row-info-button:focus-visible {
+.row-info-button:not(.mobile-expand-button):hover,
+.row-info-button:focus-visible,
+.mobile-expand-button[aria-expanded='true'] {
   border-color: var(--accent);
   color: var(--accent);
 }
